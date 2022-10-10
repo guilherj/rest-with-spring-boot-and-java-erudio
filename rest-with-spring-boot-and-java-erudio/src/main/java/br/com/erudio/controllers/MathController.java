@@ -29,8 +29,7 @@ public class MathController {
 			
 			throw new UnsupportedMatchOperationException("Please set a numeric value!");
 		}
-		
-		
+				
 		return mathOperations.operations(operation, NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 		
 	}
