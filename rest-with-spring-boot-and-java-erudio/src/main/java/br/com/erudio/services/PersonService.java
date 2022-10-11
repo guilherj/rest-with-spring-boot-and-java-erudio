@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.erudio.dto.v1.PersonDTO;
 import br.com.erudio.exceptions.ResourceNotFoundException;
+import br.com.erudio.mapper.DozerMapper;
+import br.com.erudio.model.Person;
 import br.com.erudio.repositories.PersonRepository;
 
 @Service
@@ -23,7 +25,7 @@ public class PersonService {
 
 		logger.info("Fiding all people!");
 
-		return repository.findAll();
+		return DozerMapper.parseListObjects(repository.findAll(), PersonDTO.class);
 	}
 
 	public PersonDTO findById(Long id) {
@@ -31,15 +33,21 @@ public class PersonService {
 		logger.info("Fiding one person!");
 		
 
-		return repository.findById(id).orElseThrow(() -> 
+		var entity =  repository.findById(id).orElseThrow(() -> 
 		new ResourceNotFoundException("No records found for this ID!"));
+		
+		return DozerMapper.parseObject(entity, PersonDTO.class);
 	}
 
 	public PersonDTO create(PersonDTO person) {
 
 		logger.info("Creating one person!");
+		
+		var entity = DozerMapper.parseObject(person, Person.class);
+		
+		var dto = DozerMapper.parseObject(repository.save(entity), PersonDTO.class);
 
-		return repository.save(person);
+		return dto;
 	}
 
 	public PersonDTO update(PersonDTO person) {
@@ -54,7 +62,9 @@ public class PersonService {
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 
-		return repository.save(entity);
+		var dto = DozerMapper.parseObject(repository.save(entity), PersonDTO.class);
+
+		return dto;
 	}
 
 	public void delete(Long id) {
