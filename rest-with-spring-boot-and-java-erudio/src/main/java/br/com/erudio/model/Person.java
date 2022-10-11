@@ -2,27 +2,49 @@ package br.com.erudio.model;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
+@Table(name = "person")
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@Getter @Setter private Long id;
-	
-	@Getter @Setter private String firstName;
-	
-	@Getter @Setter private String lastName;
-	
-	@Getter @Setter private String address;
-	
-	@Getter @Setter private String gender;
-	
-	
+
+	@Getter
+	@Setter
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Getter
+	@Setter
+	@Column(name = "first_name", nullable = false, length = 80)
+	private String firstName;
+
+	@Getter
+	@Setter
+	@Column(name = "last_name", nullable = false, length = 80)
+	private String lastName;
+
+	@Getter
+	@Setter
+	@Column(nullable = false, length = 100)
+	private String address;
+
+	@Getter
+	@Setter
+	@Column(nullable = false, length = 6)
+	private String gender;
 
 }
