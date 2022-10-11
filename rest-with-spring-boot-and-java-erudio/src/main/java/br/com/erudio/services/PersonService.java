@@ -16,12 +16,32 @@ public class PersonService {
 
 	private Logger logger = Logger.getLogger(PersonService.class.getName());
 
+	public Person create(Person person) {
+
+		logger.info("Creating one person!");
+
+		return person;
+	}
+
+	public Person update(Person person) {
+
+		logger.info("Updating one person!");
+
+		return person;
+	}
+	
+	public void delete(String id) {
+
+		logger.info("Deleting one person!");
+
+	}
+
 	public List<Person> findAll() {
 
 		List<Person> persons = new ArrayList<>();
 
 		logger.info("Fiding all people!");
-		
+
 		for (int i = 0; i < 8; i++) {
 
 			Person person = mockPerson(i);
