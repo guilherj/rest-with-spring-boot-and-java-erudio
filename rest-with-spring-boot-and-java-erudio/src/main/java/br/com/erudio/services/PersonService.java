@@ -1,15 +1,13 @@
 package br.com.erudio.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.erudio.dto.v1.PersonDTO;
 import br.com.erudio.exceptions.ResourceNotFoundException;
-import br.com.erudio.model.Person;
 import br.com.erudio.repositories.PersonRepository;
 
 @Service
@@ -21,14 +19,14 @@ public class PersonService {
 	private Logger logger = Logger.getLogger(PersonService.class.getName());
 
 	
-	public List<Person> findAll() {
+	public List<PersonDTO> findAll() {
 
 		logger.info("Fiding all people!");
 
 		return repository.findAll();
 	}
 
-	public Person findById(Long id) {
+	public PersonDTO findById(Long id) {
 
 		logger.info("Fiding one person!");
 		
@@ -37,14 +35,14 @@ public class PersonService {
 		new ResourceNotFoundException("No records found for this ID!"));
 	}
 
-	public Person create(Person person) {
+	public PersonDTO create(PersonDTO person) {
 
 		logger.info("Creating one person!");
 
 		return repository.save(person);
 	}
 
-	public Person update(Person person) {
+	public PersonDTO update(PersonDTO person) {
 
 		logger.info("Updating one person!");
 		
