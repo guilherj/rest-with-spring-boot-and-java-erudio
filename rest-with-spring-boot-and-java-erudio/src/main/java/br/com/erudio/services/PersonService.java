@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.erudio.dto.v1.PersonDTO;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
+import br.com.erudio.mapper.custom.PersonMapper;
 import br.com.erudio.model.Person;
 import br.com.erudio.repositories.PersonRepository;
 
@@ -17,6 +18,9 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository repository;
+	
+	@Autowired
+	private PersonMapper mapper;
 
 	private Logger logger = Logger.getLogger(PersonService.class.getName());
 
@@ -46,6 +50,17 @@ public class PersonService {
 		var entity = DozerMapper.parseObject(person, Person.class);
 		
 		var dto = DozerMapper.parseObject(repository.save(entity), PersonDTO.class);
+
+		return dto;
+	}
+	
+	public br.com.erudio.dto.v2.PersonDTO createv2(br.com.erudio.dto.v2.PersonDTO person) {
+
+		logger.info("Creating one person!");
+		
+		var entity = mapper.convertDTOToEntity(person);
+		
+		var dto = mapper.convertEntityToDTO(repository.save(entity));
 
 		return dto;
 	}

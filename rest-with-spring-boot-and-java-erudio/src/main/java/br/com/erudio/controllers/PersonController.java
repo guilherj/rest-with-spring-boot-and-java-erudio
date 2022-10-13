@@ -48,6 +48,14 @@ public class PersonController {
 
 	}
 	
+	@PostMapping(value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public br.com.erudio.dto.v2.PersonDTO createV2(@RequestBody br.com.erudio.dto.v2.PersonDTO person) {
+
+		return service.createv2(person);
+
+	}
+	
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PersonDTO update(@RequestBody PersonDTO person) {
 
