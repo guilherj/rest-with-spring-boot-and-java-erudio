@@ -17,16 +17,20 @@ public class WebConfig implements WebMvcConfigurer {
 		 *  https://www.baeldung.com/spring-mvc-content-negotiation-json-xml
 		 */
 		
-		// Uso via EXTENSION. http://localhost:8080/api/person/v1.xml  foi DEPRECATED a partir do SpringBoot 2.6
+		/*
+		 *  Uso via EXTENSION. http://localhost:8080/api/person/v1.xml  foi DEPRECATED a partir do SpringBoot 2.6
+		 *  
+		 *  Uma das formar de fazer agora é Via QUERY PARAM.
+		 */
 				
-		// Uma das formar de fazer agora é Via QUERY PARAM. http://localhost:8080/api/person/v1?mediaType=xml
+		// Via QUERY PARAM: http://localhost:8080/api/person/v1?mediaType=xml
 		
 		/*
 		 * favorParameter = Se aceita parâmetros.
 		 * parameterName = Nome do parâmetro passado na url
 		 * ignoreAcceptHeader = Se ignora Parâmetros passados no Header
 		 * 
-		 */
+		 *
 		configurer.favorParameter(true)
 			.parameterName("mediaType")
 			.ignoreAcceptHeader(true)
@@ -34,6 +38,22 @@ public class WebConfig implements WebMvcConfigurer {
 			.defaultContentType(MediaType.APPLICATION_JSON)
 				.mediaType("json", MediaType.APPLICATION_JSON)
 				.mediaType("xml", MediaType.APPLICATION_XML);
+				
+				*/
+		
+		
+		/*
+		 *  Via HEADER PARAM: http://localhost:8080/api/person/v1
+		 *  
+		 *  No Header necessário colocar Accept: application/NOME-DA-EXTENSÃO
+		 */
+		
+				configurer.favorParameter(false)
+					.ignoreAcceptHeader(false)
+					.useRegisteredExtensionsOnly(false)
+					.defaultContentType(MediaType.APPLICATION_JSON)
+						.mediaType("json", MediaType.APPLICATION_JSON)
+						.mediaType("xml", MediaType.APPLICATION_XML);
 	}
 
 }
