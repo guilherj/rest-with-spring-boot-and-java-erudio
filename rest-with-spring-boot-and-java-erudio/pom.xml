@@ -38,6 +38,12 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 		
+			<!-- Dependencia responsável por prover a serialização em YAML  -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
