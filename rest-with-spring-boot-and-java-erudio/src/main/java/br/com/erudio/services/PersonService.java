@@ -57,8 +57,8 @@ public class PersonService {
 		var entity = repository.findById(person.getId()).orElseThrow(() -> 
 		new ResourceNotFoundException("No records found for this ID!"));
 		
-		entity.setFirstName(person.getFirstName());
-		entity.setLastName(person.getLastName());
+		entity.setFirstName(person.getFirst_name());
+		entity.setLastName(person.getLast_name());
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 
