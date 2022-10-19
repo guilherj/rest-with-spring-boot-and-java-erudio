@@ -6,6 +6,10 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import br.com.erudio.controllers.PersonController;
 import br.com.erudio.dto.v1.PersonDTO;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
@@ -36,7 +40,12 @@ public class PersonService {
 		var entity =  repository.findById(id).orElseThrow(() -> 
 		new ResourceNotFoundException("No records found for this ID!"));
 		
-		return DozerMapper.parseObject(entity, PersonDTO.class);
+		PersonDTO dto = DozerMapper.parseObject(entity, PersonDTO.class);
+		
+		// Adicionando HATEOAS no objeto dto
+		dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+		
+		return dto;
 	}
 
 	public PersonDTO create(PersonDTO person) {
@@ -54,7 +63,7 @@ public class PersonService {
 
 		logger.info("Updating one person!");
 		
-		var entity = repository.findById(person.getId()).orElseThrow(() -> 
+		var entity = repository.findById(person.getKey()).orElseThrow(() -> 
 		new ResourceNotFoundException("No records found for this ID!"));
 		
 		entity.setFirstName(person.getFirstName());
