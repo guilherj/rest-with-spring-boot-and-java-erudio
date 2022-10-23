@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
 import lombok.EqualsAndHashCode;
@@ -14,6 +16,7 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @EqualsAndHashCode
+@JsonPropertyOrder({"id", "firstName", "lastName", "address", "gender"})
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +26,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 	 * não é possivel fazer o mapping. Essa anotação resolve esse problema.
 	 */
 	@Mapping("id") 
+	@JsonProperty("id") //Renomeia o nome do atributo no JSON de Response
 	@Getter
 	@Setter
 	private Long key;

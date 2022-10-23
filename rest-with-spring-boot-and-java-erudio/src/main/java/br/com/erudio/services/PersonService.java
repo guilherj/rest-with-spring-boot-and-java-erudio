@@ -29,7 +29,13 @@ public class PersonService {
 
 		logger.info("Fiding all people!");
 
-		return DozerMapper.parseListObjects(repository.findAll(), PersonDTO.class);
+		var persons = DozerMapper.parseListObjects(repository.findAll(), PersonDTO.class);
+		
+		// Adicionando HATEOAS para o findById em cada elemento da lista
+		persons.stream()
+			   .forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+		
+		return persons;
 	}
 
 	public PersonDTO findById(Long id) {
@@ -40,7 +46,7 @@ public class PersonService {
 		var entity =  repository.findById(id).orElseThrow(() -> 
 		new ResourceNotFoundException("No records found for this ID!"));
 		
-		PersonDTO dto = DozerMapper.parseObject(entity, PersonDTO.class);
+		var dto = DozerMapper.parseObject(entity, PersonDTO.class);
 		
 		// Adicionando HATEOAS no objeto dto
 		dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
@@ -55,6 +61,9 @@ public class PersonService {
 		var entity = DozerMapper.parseObject(person, Person.class);
 		
 		var dto = DozerMapper.parseObject(repository.save(entity), PersonDTO.class);
+		
+		// Adicionando HATEOAS para o findById
+		dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
 
 		return dto;
 	}
@@ -72,6 +81,9 @@ public class PersonService {
 		entity.setGender(person.getGender());
 
 		var dto = DozerMapper.parseObject(repository.save(entity), PersonDTO.class);
+		
+		// Adicionando HATEOAS para o findById
+		dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
 
 		return dto;
 	}
