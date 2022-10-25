@@ -11,6 +11,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.dto.v1.PersonDTO;
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
 import br.com.erudio.model.Person;
@@ -55,6 +56,8 @@ public class PersonService {
 	}
 
 	public PersonDTO create(PersonDTO person) {
+		
+		if(person == null) throw new RequiredObjectIsNullException();
 
 		logger.info("Creating one person!");
 		
@@ -69,6 +72,8 @@ public class PersonService {
 	}
 
 	public PersonDTO update(PersonDTO person) {
+		
+		if(person == null) throw new RequiredObjectIsNullException();
 
 		logger.info("Updating one person!");
 		
